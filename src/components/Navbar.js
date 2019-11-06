@@ -9,7 +9,7 @@ const Navbar = props => {
     return (
         <>
             <AppBar position={'relative'} color={'secondary'} style={AppBarStyle}>
-                <p>My Markdown Editor</p>
+                <p>Marker Tester</p>
             </AppBar>
         </>
     )
