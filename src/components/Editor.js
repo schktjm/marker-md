@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import InputArea from './Textarea';
 import Preview from './Preview';
+import Button from '@material-ui/core/Button';
 
 const containerStyle = {
+    position: "relative",
     display: "flex",
     justifyContent: "space-around"
 };
@@ -20,21 +22,42 @@ const inputAreaStyle = {
     outline: "none"
 };
 
+const floatButtonStyle = {
+    position: "fixed",
+    top: "60px",
+    right: "30px",
+    zIndex: "1000"
+};
+
 const Editor = () => {
-    const [text, setText] = useState('# This is a header\n\nAnd this is a paragraph\n\n```javascript=\n a=1\n```\n\n > aaa');
+    const [text, setText] = useState('');
+    const [isShow, setIsShow] = useState(false);
 
     const handleChange = e => {
         setText(e.target.value);
         localStorage.setItem('text', e.target.value);
     };
+
+    const handleClick = () => {
+        setIsShow(!isShow);
+    };
+
     useEffect(() => {
-        setText(localStorage.getItem('text') || '');
+        setText(localStorage.getItem('text') || text);
     }, []);
 
     return (
-        <div style={containerStyle}>
-            <InputArea handleChange={handleChange} value={text} style={{...boxStyle, ...inputAreaStyle}}/>
-            <Preview text={text} style={boxStyle}/>
+        <div>
+            <Button variant="contained" href={""} style={floatButtonStyle} onClick={handleClick}>
+                {isShow ? "close" : "show editor"}
+            </Button>
+            <div style={containerStyle}>
+                {!isShow ?
+                    "" :
+                    <InputArea handleChange={handleChange} value={text} style={{...boxStyle, ...inputAreaStyle}}/>
+                }
+                <Preview text={text} style={boxStyle}/>
+            </div>
         </div>
     )
 };
